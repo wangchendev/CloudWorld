@@ -7,5 +7,7 @@ type Gate struct {
 }
 
 func (g *Gate) BootPrepare() {
-    g.RegisterComponent(SessionMgr{})
+    mgr := SessionMgr{}
+    g.RegisterComponent(mgr)
+    mgr.BootPrepare()
 }

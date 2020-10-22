@@ -1,9 +1,11 @@
 package main
 
 import (
-    "fmt"
+    "engine/gate"
 )
 
 func main() {
-    fmt.Println("hello cloud world")
+    gateApp := gate.Gate{}
+    gateApp.Init()
+    gateApp.BootPrepare()
 }
