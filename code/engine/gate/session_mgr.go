@@ -4,6 +4,7 @@ import (
     "os"
 
     "engine/app"
+    "engine/env"
     "engine/logs"
 )
 
@@ -12,18 +13,15 @@ type SessionMgr struct {
 }
 
 func (g *SessionMgr) BootPrepare() {
-    createListener()
-    //listener := createListener()
-    //listener.Init()
-    //
-    //listener.Start()
+    listener := createListener()
+    listener.Init()
+
+    listener.Start()
 }
 
 func createListener() IListener {
    address := getListenAddress("ServicePort")
-   logs.Info("address %s", address)
-   return nil
-   //return newTcpListener(address, true)
+   return newTcpListener(address)
 }
 
 func getListenAddress(key string) string {
@@ -34,7 +32,7 @@ func getListenAddress(key string) string {
        os.Exit(-1)
    }
 
-   address := "127.0.0.1" + ":" + port
+   address := env.HostIP() + ":" + port
    logs.Info("the listening address is %s", address)
    return address
 }

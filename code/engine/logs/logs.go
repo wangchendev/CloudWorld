@@ -12,27 +12,51 @@ func init()  {
 }
 
 func Debug(template string, args ...interface{}) {
-    defaultLogger.Debugf(template, args)
+    if len(args) == 0 {
+        defaultLogger.Debug(template)
+    } else {
+        defaultLogger.Debugf(template, args)
+    }
 }
 
 func Info(template string, args ...interface{}) {
-    defaultLogger.Infof(template, args)
+    if len(args) == 0 {
+        defaultLogger.Info(template)
+    } else {
+        defaultLogger.Infof(template, args)
+    }
 }
 
 func Warn(template string, args ...interface{}) {
-    defaultLogger.Warnf(template, args)
+    if len(args) == 0 {
+        defaultLogger.Warn(template)
+    } else {
+        defaultLogger.Warnf(template, args)
+    }
 }
 
 func Error(template string, args ...interface{}) {
-    defaultLogger.Errorf(template, args)
+    if len(args) == 0 {
+        defaultLogger.Error(template)
+    } else {
+        defaultLogger.Errorf(template, args)
+    }
 }
 
 func DPanic(template string, args ...interface{}) {
-    defaultLogger.DPanicf(template, args)
+    if len(args) == 0 {
+        defaultLogger.DPanic(template)
+    } else {
+        defaultLogger.DPanicf(template, args)
+    }
 }
 
 func Panic(template string, args ...interface{}) {
-    defaultLogger.Panicf(template, args)
+    if len(args) == 0 {
+        defaultLogger.Panic(template)
+    } else {
+        defaultLogger.Panicf(template, args)
+    }
 }
 
 func Flush() {
