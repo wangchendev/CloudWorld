@@ -2,8 +2,9 @@ package app
 
 import (
     "flag"
-    "fmt"
     "os"
+
+    "engine/logs"
 )
 
 var (
@@ -31,7 +32,8 @@ func initFromConfFile() {
     var err error
     cfg, err := NewYamlFromFile(ConfigFile)
     if err != nil {
-        fmt.Fprintf(os.Stderr, "can not parse config file %s\n", ConfigFile)
+        logs.Error("can not parse config file %s", ConfigFile)
+        logs.Flush()
         os.Exit(-1)
     }
 
