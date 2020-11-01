@@ -1,4 +1,5 @@
 package app
 
-type Component interface {
+type IComponent interface {
+    IBootUnit
 }

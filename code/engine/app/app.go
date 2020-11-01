@@ -1,49 +1,31 @@
 package app
 
-import (
-    "flag"
-    "os"
-
-    "engine/logs"
-)
-
-var (
-    ServiceConfig *YamlConfig
-    ConfigFile string
-)
-
 type App struct {
-    comps []interface{}
+    *BootUnit
+    comps []IComponent
+}
+
+func NewApp() *App {
+    app := App {
+        BootUnit: NewBootUnit(),
+    }
+    return &app
 }
 
 func (a *App) Init() {
-    initFromArgs()
-    initFromConfFile()
+    a.onAppEnterStageBegin()
 }
 
-func initFromArgs() {
-    if ConfigFile == "" {
-        flag.StringVar(&ConfigFile, "conf", "", "support config file.")
-    }
-    flag.Parse()
-}
-
-func initFromConfFile() {
-    var err error
-    cfg, err := NewYamlFromFile(ConfigFile)
-    if err != nil {
-        logs.Error("can not parse config file %s", ConfigFile)
-        logs.Flush()
-        os.Exit(-1)
+func (a *App) onAppEnterStageBegin() {
+    a.OnBootStage()
+    for _, comp := range a.comps {
+        comp.OnBootStage()
     }
 
-    ServiceConfig = GetConfigItem(cfg, "Develop")
+    // TODO: 注册服务发现
 }
 
-func (a *App) BootPrepare() {
-}
-
-func (a *App) RegisterComponent(comp Component) {
+func (a *App) RegisterComponent(comp IComponent) {
     // TODO: 1. 单例  2. 检查重注册
     a.comps = append(a.comps, comp)
 }

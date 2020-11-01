@@ -4,12 +4,22 @@ import (
     "os"
 
     "engine/app"
+    "engine/config"
     "engine/env"
     "engine/logs"
 )
 
 type SessionMgr struct {
+    *app.BootUnit
     listener interface{}
+}
+
+func NewSessionMgr() *SessionMgr {
+    mgr := SessionMgr{
+        BootUnit: app.NewBootUnit(),
+    }
+    mgr.BootUnit.IBootUnit = &mgr
+    return &mgr
 }
 
 func (g *SessionMgr) BootPrepare() {
@@ -25,7 +35,7 @@ func createListener() IListener {
 }
 
 func getListenAddress(key string) string {
-   port, err := app.ServiceConfig.String(key)
+   port, err := config.ServiceConfig.String(key)
    if err != nil {
        logs.Error("%s is not configured", key)
        logs.Flush()

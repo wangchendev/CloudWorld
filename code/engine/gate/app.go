@@ -1,13 +1,21 @@
 package gate
 
-import "engine/app"
+import (
+    "engine/app"
+)
 
 type Gate struct {
-    app.App
+    *app.App
+}
+
+func NewGate() *Gate {
+    gate := Gate{
+        App: app.NewApp(),
+    }
+    gate.App.BootUnit.IBootUnit = &gate
+    return &gate
 }
 
 func (g *Gate) BootPrepare() {
-    mgr := SessionMgr{}
-    g.RegisterComponent(mgr)
-    mgr.BootPrepare()
+    g.RegisterComponent(NewSessionMgr())
 }
